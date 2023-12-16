@@ -65,6 +65,7 @@ namespace ProjectICU_Server.Net.SQL
                     }
                     else
                     {
+                        conn.Close();
                         return null;
                     }
                 }
@@ -89,6 +90,7 @@ namespace ProjectICU_Server.Net.SQL
                     }
                     else
                     {
+                        conn.Close();
                         return null;
                     }
                 }
