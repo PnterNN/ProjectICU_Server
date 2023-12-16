@@ -20,5 +20,81 @@ namespace ProjectICU_Server.Net.SQL
         {
             return new MySqlConnection(_connectionString);
         }
+
+
+        public bool CheckLoginUser(string email, string password)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE Email=@email AND Password=@password", conn);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@password", password);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        conn.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        conn.Close();
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+        public string getUID(string email)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT UID FROM users WHERE Email=@Email", conn);
+                cmd.Parameters.AddWithValue("@email", email);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        string uid = reader.GetString(0);
+                        conn.Close();
+                        return uid;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        public string getUsername(string email)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT Username FROM users WHERE Email=@Email", conn);
+                cmd.Parameters.AddWithValue("@Email", email);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        string username = reader.GetString(0);
+                        conn.Close();
+                        return username;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
+
     }
 }

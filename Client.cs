@@ -39,7 +39,22 @@ namespace ProjectICU_Server
                     case 0: // login
                         Email = _packetReader.ReadMessage();
                         Password = _packetReader.ReadMessage();
-                        Console.WriteLine("[" + DateTime.Now + "]: [/" + IPAdress + "] Giriş bilgileri kontrol ediliyor... " + Email + " " + Password);
+                        Console.WriteLine("[" + DateTime.Now + "]: [/" + IPAdress + "] Giriş bilgileri kontrol ediliyor... ");
+                        if (sql.CheckLoginUser(Email, Password))
+                        {
+                            Console.WriteLine("[" + DateTime.Now + "]: [/" + IPAdress + "] Giriş başarılı.");
+                            status = true;
+                            Username = sql.getUsername(Email);
+                            UID = sql.getUID(Email);
+                            Program.sendLoginInfo(this);
+
+                        }
+                        else
+                        {
+                              Console.WriteLine("[" + DateTime.Now + "]: [/" + IPAdress + "] Giriş başarısız.");
+                              status = false;
+                        }
+                       
                         break;
                     case 1: // register
 

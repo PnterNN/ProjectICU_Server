@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectICU_Server.Net.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -29,6 +30,15 @@ namespace ProjectICU_Server
                 }
             });
             Console.Read();
+        }
+
+        public static void sendLoginInfo(Client client)
+        {
+            PacketBuilder loginInfo = new PacketBuilder();
+            loginInfo.WriteOpCode(0);
+            loginInfo.WriteMessage(client.Username);
+            loginInfo.WriteMessage(client.UID);
+            client.ClientSocket.Client.Send(loginInfo.GetPacketBytes());
         }
     }
 }
